@@ -23,7 +23,7 @@ class BasicBlock(nn.Module):
     expansion = 1
     def __init__(self, inplanes, planes, stride=1, downsample=None):
         super(BasicBlock, self).__init__()
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.ReLU()
         self.conv1 = conv3x3(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = conv3x3(planes, planes)
@@ -71,7 +71,7 @@ class scatternet_cnn(nn.Module):
 
         self.conv1 = nn.Conv2d(int(3*self.nfscat), self.ichannels, kernel_size=3,padding=1)#zconv3x3_3D(self.nfscat,self.ichannels)
         self.bn1 = nn.BatchNorm2d(self.ichannels)
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.ReLU()
         self.layer1 = self._make_layer(BasicBlock, self.ichannels, 2)
         self.layer2 = self._make_layer(BasicBlock, self.ichannels2, 2, stride=2)
         self.avgpool = nn.AvgPool2d(int(self.nspace/2))
@@ -113,5 +113,4 @@ class scatternet_cnn(nn.Module):
         x = self.avgpool(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        x = nn.Sigmoid()(x)
         return x

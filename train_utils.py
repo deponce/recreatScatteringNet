@@ -2,6 +2,7 @@ import time
 import sys
 
 def TrainOneEpoch(model, criterion, train_data,optimizer, device, monitor, steps=60):
+    model.train()
     optimizer.zero_grad()
     for idx, (batch, target) in enumerate(train_data):
         start = time.time()
