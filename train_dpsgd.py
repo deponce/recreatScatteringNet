@@ -79,6 +79,7 @@ def main(model_name="scatternet_cnn",
                 #nesterov=config['nesterov']
             )
     scheduler = MultiStepLR(optimizer, milestones=lr_decay_epoch, gamma=lr_decay_factor)
+    """
     privacy_engine = PrivacyEngine(
         model,
         sample_rate=batch_size / len(train_data.dataset),
@@ -86,9 +87,9 @@ def main(model_name="scatternet_cnn",
         noise_multiplier=noise_multiplier,
         max_grad_norm=max_grad_norm,
     ).to(device)
-
+    """
     # TODO: fix the privacy engine parameters
-    privacy_engine.attach(optimizer)
+    #privacy_engine.attach(optimizer)
 
     monitor = training_monitor(set_size=len(train_data.dataset))
     start_epoch=0
@@ -137,7 +138,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_name', type=str, default="scatter_resnet", choices=["alexnet", "scatter_resnet", "resnet18"])
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--val_batch_size', type=int, default=64)
-    parser.add_argument('--mini_batch_size', type=int, default=2)
+    parser.add_argument('--mini_batch_size', type=int, default=64)
     parser.add_argument('--lr', type=float, default=0.1)
     parser.add_argument('--optim', type=str, default="SGD", choices=["SGD", "Adam", 'SGD_AGC'])
     parser.add_argument('--SGD_AGC_clip', type=float, default=999999)
@@ -150,8 +151,8 @@ if __name__ == '__main__':
     parser.add_argument('--max_grad_norm', type=float, default=1)
 
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--data_path',type=str,default='~/salon/large-scale-dpsgd/data')
-    parser.add_argument('--CheckPointPATH', type=str, default=' ')
+    parser.add_argument('--data_path',type=str,default='~/salon/recreatScatteringNet/data')
+    parser.add_argument('--CheckPointPATH', type=str, default='./')
     parser.add_argument('--checkpoint', type=str, default=None)
 
     #parser.add_argument('--data_path',type=str,default='~/projects/rrg-xihe/dataset/imagenet12')
